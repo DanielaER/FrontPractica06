@@ -1,11 +1,11 @@
 <nav>
-  <a routerLink="/employees">Lista de empleados</a>
-  <a routerLink="/employee/new">Añadir empleado</a>
-  <a *ngIf="isAuthenticated(); else loginLink" (click)="logout()">Logout</a>
-  
-  <ng-template #loginLink>
+  <a *ngIf="isAuthenticated() " routerLink="/ventas">Ventas</a>
+  <a *ngIf="isAuthenticated() && (getRole() === 'admin' || getRole() === 'gerente')" routerLink="/productos">Productos</a>
+  <a *ngIf="isAuthenticated() " routerLink="/clientes">Clientes</a>
+  <a *ngIf="isAuthenticated() && getRole() === 'admin'" routerLink="/empleados">Empleados</a>
+  <a *ngIf="isAuthenticated(); else authLinks" (click)="logout()">Logout</a>
+  <ng-template #authLinks>
     <a routerLink="/login">Login</a>
   </ng-template>
-
 </nav>
 <router-outlet></router-outlet>

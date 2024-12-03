@@ -5,21 +5,29 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { EmployeeListComponent } from './components/employee-list/employee-list.component';
-import { EmployeeFormComponent } from './components/employee-form/employee-form.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './auth.interceptor';
-import { authGuard } from './auth.guard';
+import { RegisterComponent } from './components/register/register.component';
+import { ClienteComponent } from './components/cliente/cliente.component';
+import { ProductoComponent } from './components/producto/producto.component';
+import { AuthGuard } from './auth.guard';
+import { UserComponent } from './components/user/user.component';
+import { VentaComponent } from './components/venta/venta.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeListComponent,
-    EmployeeFormComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    ClienteComponent,
+    ClienteComponent,
+    ProductoComponent,
+    UserComponent,
+    VentaComponent
   ],
   imports: [
     BrowserModule,
@@ -27,11 +35,12 @@ import { authGuard } from './auth.guard';
     NoopAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    authGuard
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,64 @@
+<div class="container">
+  <h2 class="title">Gestión de Usuarios</h2>
+
+  <!-- Formulario para registrar o actualizar un usuario -->
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+  
+    <div class="form-group">
+      <label for="username">Nombre de Usuario:</label>
+      <input id="username" formControlName="username" type="text" class="form-control" required />
+    </div>
+
+    <!-- Mostrar el campo de contraseña solo al registrar un usuario -->
+    <div class="form-group" *ngIf="!selectedUser">
+      <label for="password">Contraseña:</label>
+      <input id="password" formControlName="password" type="password" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label for="roles">Roles:</label>
+      <select id="roles" formControlName="roles" class="form-control" required>
+        <option value="gerente">Gerente</option>
+        <option value="cajero">Cajero</option>
+      </select>
+    </div>
+
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <button type="submit" class="btn btn-primary">{{ selectedUser ? 'Actualizar' : 'Registrar' }} Usuario</button>
+  </form>
+
+  <h3 class="subtitle">Lista de Usuarios</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre de Usuario</th>
+        <th>Roles</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>{{ user.roles }}</td>
+        <td>
+          
+<!-- 
+        <button (click)="editUser(user)" class="btn btn-secondary">Editar</button> --->
+          <button (click)="confirmDelete(user.key)" class="btn btn-danger">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div id="deleteModal" class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Confirmar Eliminación</h2>
+    <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+    <button class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+    <button class="btn btn-danger" (click)="deleteUser()">Eliminar</button>
+  </div>
+</div>

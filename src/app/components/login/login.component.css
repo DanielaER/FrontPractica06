@@ -1,59 +1,126 @@
-/* Estilos generales */
+/* General body styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
+  font-family: 'Poppins', sans-serif;
+  background-color: #FFE3E9; /* Rosa claro */
+  color: #2C3E50; /* Gris oscuro */
+  margin: 0;
+  padding: 0;
 }
 
+/* Contenedor principal */
 .container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFE3E9; /* Rosa claro */
+}
+
+/* Título de Login */
+.login-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #D63384; /* Rosa brillante */
+}
+
+/* Estilo para el formulario de login */
+.login-form {
   max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  color: #333;
-}
-
-form {
-  margin-top: 20px;
-}
-
-div {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-input[type="text"],
-input[type="password"] {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 2rem;
+  background-color: #FFF0F6; /* Rosa más claro */
+  border: 1px solid #F8D7DA; /* Rosa claro */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  margin-top: 2rem;
 }
 
+/* Estilo para los grupos de formulario */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Estilo para las etiquetas */
+.form-group label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #D63384; /* Rosa brillante */
+  margin-bottom: 0.5rem;
+}
+
+/* Estilo para los campos de entrada */
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #F8D7DA; /* Rosa claro */
+  border-radius: 8px; /* Bordes redondeados */
+  font-size: 1rem;
+  background-color: #FFE3E9; /* Rosa claro */
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #D63384; /* Rosa brillante */
+  box-shadow: 0 0 8px rgba(214, 51, 132, 0.3); /* Sombra rosa */
+  outline: none;
+}
+
+/* Estilo para los botones */
+.btn {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px; /* Bordes redondeados */
+  background-color: #D63384; /* Rosa brillante */
+  color: #FFFFFF;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #C2185B; /* Rosa más oscuro */
+}
+
+/* Estilo para los enlaces de registro */
+.register-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.register-link a {
+  color: #D63384; /* Rosa brillante */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Estilo para el mensaje de error */
 .error {
   color: red;
-  margin-top: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
 }
 
-button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+/* Media Queries para hacer el diseño más responsivo */
+@media (max-width: 768px) {
+  .login-title {
+    font-size: 2rem;
+  }
 
-button[type="submit"]:hover {
-  background-color: #0056b3;
+  .login-form {
+    padding: 1.5rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+  }
 }

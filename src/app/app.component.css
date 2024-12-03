@@ -1,22 +1,48 @@
+/* Navbar principal */
 nav {
-    background-color: #007bff;
-    padding: 10px 20px;
-    border-radius: 5px;
+  background-color: #D63384; /* Rosa brillante */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: left;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilo para los enlaces del navbar */
+nav a {
+  color: #FFFFFF; /* Blanco */
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 15px;
+  margin-right: 10px;
+  border-radius: 8px; /* Bordes redondeados */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Efecto hover para los enlaces */
+nav a:hover {
+  background-color: #C2185B; /* Rosa más oscuro */
+  color: #FFE3E9; /* Rosa claro */
+}
+
+/* Enlace activo */
+nav a.active {
+  background-color: #C2185B; /* Rosa más oscuro */
+  color: #FFE3E9; /* Rosa claro */
+}
+
+/* Para pantallas pequeñas (Responsive) */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
   }
-  
+
   nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 12px;
-    margin-right: 10px;
-    border-radius: 5px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    width: 100%; /* Que ocupen todo el ancho */
+    text-align: center;
   }
-  
-  nav a:hover {
-    background-color: #0056b3;
-  }
-  
-  nav a.active {
-    background-color: #0056b3;
-  }
-  
+}

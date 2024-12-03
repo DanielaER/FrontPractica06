@@ -1,0 +1,69 @@
+<div class="container">
+  <h2 class="title">Clientes</h2>
+  <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()" class="cliente-form">
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" formControlName="nombre" placeholder="Ingrese el nombre del cliente" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="direccion">Dirección:</label>
+      <input id="direccion" formControlName="direccion" placeholder="Ingrese la dirección del cliente" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input id="telefono" formControlName="telefono" placeholder="0000000000" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" placeholder="cliente@mail.com" type="email" class="form-control" />
+    </div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+
+  <h3 class="subtitle">Lista de Clientes</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cliente of clientes">
+        <td>{{ cliente.nombre }}</td>
+        <td>{{ cliente.direccion }}</td>
+        <td>{{ cliente.telefono }}</td>
+        <td>{{ cliente.email }}</td>
+        <td class="actions">
+          <button (click)="editCliente(cliente)" class="btn btn-secondary">Editar</button>
+          <button (click)="confirmDelete(cliente.idCliente)" class="btn btn-danger">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal de confirmación -->
+<div id="deleteModal" class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Confirmar Eliminación</h2>
+    <p>¿Estás seguro de que deseas eliminar este cliente?</p>
+    <button class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+    <button class="btn btn-danger" (click)="deleteCliente()">Eliminar</button>
+  </div>
+</div>
+
+<!-- Modal de error -->
+<div id="errorModal" class="modal" [ngClass]="{'show': showErrorModal}">
+  <div class="modal-content">
+    <span class="close" (click)="closeErrorModal()">&times;</span>
+    <h2>Error</h2>
+    <p>{{ deleteErrorMessage }}</p>
+    <button class="btn btn-secondary" (click)="closeErrorModal()">Cerrar</button>
+  </div>
+</div>

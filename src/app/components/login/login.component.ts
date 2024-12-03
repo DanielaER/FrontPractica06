@@ -31,11 +31,11 @@ export class LoginComponent {
       this.authService.login(username, password).subscribe(
         (response) => {
           console.log('Respuesta del servidor:', response);
-          this.router.navigate(['/employees']);
+          this.router.navigate(['/sale']);
           console.log("login");
         },
         error => {
-          this.errorMessage = 'Invalid username or password';
+          this.errorMessage = 'Usuario o contraseña invalido';
         }
       );
     }
