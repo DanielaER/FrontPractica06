@@ -22,7 +22,8 @@ export class VentaComponent implements OnInit {
   page: number = 1;  
   clientes: any[] = [];
   productos: any[] = [];
-  
+  productosSeleccionados: any[] = []; // Productos seleccionados para la venta
+
 
   constructor(
     private fb: FormBuilder,
@@ -83,18 +84,7 @@ export class VentaComponent implements OnInit {
 
   onSubmit(): void {
     if (this.ventaForm.valid) {
-      const venta: Venta = this.ventaForm.value;
-        // Registrar una nueva venta
-        this.ventaService.saveVenta(venta).subscribe(
-          response => {
-            this.loadVentas();
-            this.ventaForm.reset();
-          },
-          error => {
-            console.error('Error saving venta', error);
-            this.errorMessage = 'Error saving venta';
-          }
-        );
+      console.log(this.ventaForm.value);
       
     }
   }
@@ -140,5 +130,34 @@ export class VentaComponent implements OnInit {
   closeErrorModal(): void {
     this.showErrorModal = false;
   }
+
+  agregarProducto(): void {
+    const nuevoProducto = this.productos[0]; // Por defecto, selecciona el primer producto
+    this.productosSeleccionados.push({
+      idProducto: nuevoProducto.idProducto,
+      nombre: nuevoProducto.nombre,
+      cantidad: 1,
+      precioUnitario: nuevoProducto.precioUnitario,
+      subtotal: nuevoProducto.precioUnitario
+    });
+    this.actualizarTotal();
+  }
+
+  eliminarProducto(index: number): void {
+    this.productosSeleccionados.splice(index, 1);
+    this.actualizarTotal();
+  }
+
+  actualizarSubtotal(index: number): void {
+    const producto = this.productosSeleccionados[index];
+    producto.subtotal = producto.cantidad * producto.precioUnitario;
+    this.actualizarTotal();
+  }
+
+  actualizarTotal(): void {
+    const total = this.productosSeleccionados.reduce((sum, producto) => sum + producto.subtotal, 0);
+    this.ventaForm.patchValue({ total });
+  }
+
 
 }

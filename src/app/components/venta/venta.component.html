@@ -11,63 +11,80 @@
           </option>
         </select>
       </div>
+
+
+    <!-- Tabla para agregar productos a la venta -->
+    <div class="form-group">
+      <label>Productos</label>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productosSeleccionados; let i = index">
+            <td>{{ producto.nombre }}</td>
+            <td>
+              <input type="number" [(ngModel)]="producto.cantidad" (change)="actualizarSubtotal(i)" class="form-control" />
+            </td>
+            <td>{{ producto.precioUnitario }}</td>
+            <td>{{ producto.subtotal }}</td>
+            <td>
+              <button type="button" (click)="eliminarProducto(i)" class="btn btn-danger">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" (click)="agregarProducto()" class="btn btn-secondary">Añadir Producto</button>
+    </div>
+
   
-      <div class="form-group">
-        <label for="producto">Producto</label>
-        <select id="producto" formControlName="producto" class="form-control">
-          <option *ngFor="let producto of productos" [value]="producto.idProducto">
-            {{ producto.descripcion }}
-          </option>
-        </select>
-      </div>
   
-      <div class="form-group">
-        <label for="cantidad">Cantidad</label>
-        <input id="cantidad" formControlName="cantidad" type="number" class="form-control" />
-      </div>
   
-      <button type="button" class="btn btn-success" (click)="agregarProducto()">Agregar Producto</button>
+  
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  
+      <button type="submit" class="btn btn-primary">Registrar Venta</button>
     </form>
   
-    <!-- Detalle de Venta -->
-    <h3 class="subtitle">Detalle de Venta</h3>
+    <!-- Lista de Ventas -->
+    <h3 class="subtitle">Lista de Ventas</h3>
     <table class="table">
       <thead>
         <tr>
-          <th>Producto</th>
-          <th>Descripción</th>
-          <th>Cantidad</th>
-          <th>Precio Unitario</th>
+          <th>No. Venta</th>
           <th>Total</th>
+          <th>Fecha</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let detalle of listaDetalleVenta">
-          <td>{{ detalle.producto.descripcion }}</td>
-          <td>{{ detalle.producto.descripcion }}</td>
-          <td><input [(ngModel)]="detalle.cantidad" type="number" (change)="actualizarTotal(detalle)" class="form-control" /></td>
-          <td>{{ detalle.producto.precio | currency }}</td>
-          <td>{{ detalle.cantidad * detalle.producto.precio | currency }}</td>
-          <td>
-            <button (click)="eliminarProducto(detalle)" class="btn btn-danger">Eliminar</button>
+        <tr *ngFor="let venta of ventas">
+          <td>{{ venta.idVenta }}</td>
+          <td>{{ venta.total | currency }}</td>
+          <td>{{ venta.fecha | date }}</td>
+          <td class="actions">
+            <button *ngIf="venta.idVenta" (click)="descargarReporte(venta.idVenta)" class="btn btn-danger">Imprimir</button>
+            <button *ngIf="venta.idVenta" (click)="sendVenta(venta.idVenta)" class="btn btn-danger">Enviar correo</button>
+
           </td>
         </tr>
       </tbody>
     </table>
-  
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Registrar Venta</button>
-    </div>
-  
   </div>
+  
   
   <!-- Modal de error -->
   <div id="errorModal" class="modal" [ngClass]="{'show': showErrorModal}">
     <div class="modal-content">
       <span class="close" (click)="closeErrorModal()">&times;</span>
       <h2>Error</h2>
-      <p>{{ errorMessage }}</p>
+      <p>{{ deleteErrorMessage }}</p>
       <button class="btn btn-secondary" (click)="closeErrorModal()">Cerrar</button>
     </div>
   </div>
