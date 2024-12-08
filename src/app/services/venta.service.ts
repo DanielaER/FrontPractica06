@@ -25,7 +25,7 @@ export class VentaService {
 
   // Guardar una nueva venta
   saveVenta(data: { venta: Venta, detalles: DetalleVenta[] }): Observable<any> {
-    return this.http.post<any>(this.baseUrl, data, {
+    return this.http.post<any>(`${this.baseUrl}/create`, data, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }

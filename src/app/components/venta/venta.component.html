@@ -1,21 +1,37 @@
 <div class="container">
-    <h2 class="title">Gestión de Ventas</h2>
-  
-    <!-- Formulario para registrar una venta -->
-    <form [formGroup]="ventaForm" (ngSubmit)="onSubmit()" class="venta-form">
-      <div class="form-group">
-        <label for="cliente">Cliente</label>
-        <select id="cliente" formControlName="cliente" class="form-control">
-          <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
-            {{ cliente.nombre }}
-          </option>
-        </select>
-      </div>
+  <h2 class="title">Gestión de Ventas</h2>
 
+  <!-- Formulario para registrar una venta -->
+  <form [formGroup]="ventaForm" (ngSubmit)="onSubmit()" class="venta-form">
+    <div class="form-group">
+      <label for="cliente">Cliente</label>
+      <select id="cliente" formControlName="cliente" class="form-control">
+        <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
+          {{ cliente.nombre }}
+        </option>
+      </select>
+    </div>
 
-    <!-- Tabla para agregar productos a la venta -->
+    <!-- Sección de Productos -->
     <div class="form-group">
       <label>Productos</label>
+      <div class="d-flex align-items-center mb-3">
+        <select
+          [(ngModel)]="productoSeleccionado"
+          class="form-control me-2"
+          style="flex: 1;"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <option [value]="null" disabled selected>Seleccione un producto</option>
+          <option *ngFor="let producto of productos" [value]="producto.idProducto">
+            {{ producto.descripcion }}
+          </option>
+        </select>
+        <button type="button" (click)="agregarProducto()" class="btn btn-secondary">
+          Añadir Producto
+        </button>
+      </div>
+
       <table class="table">
         <thead>
           <tr>
@@ -28,64 +44,56 @@
         </thead>
         <tbody>
           <tr *ngFor="let producto of productosSeleccionados; let i = index">
-            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
             <td>
-              <input type="number" [(ngModel)]="producto.cantidad" (change)="actualizarSubtotal(i)" class="form-control" />
+              <input
+                type="number"
+                [(ngModel)]="producto.cantidad"
+                [ngModelOptions]="{ standalone: true }"
+                (change)="actualizarSubtotal(i)"
+                class="form-control"
+              />
             </td>
-            <td>{{ producto.precioUnitario }}</td>
-            <td>{{ producto.subtotal }}</td>
+            <td>{{ producto.precio | currency }}</td>
+            <td>{{ producto.subtotal | currency }}</td>
             <td>
               <button type="button" (click)="eliminarProducto(i)" class="btn btn-danger">Eliminar</button>
             </td>
           </tr>
         </tbody>
       </table>
-      <button type="button" (click)="agregarProducto()" class="btn btn-secondary">Añadir Producto</button>
     </div>
 
-  
-  
-  
-  
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-  
-      <button type="submit" class="btn btn-primary">Registrar Venta</button>
-    </form>
-  
-    <!-- Lista de Ventas -->
-    <h3 class="subtitle">Lista de Ventas</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>No. Venta</th>
-          <th>Total</th>
-          <th>Fecha</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let venta of ventas">
-          <td>{{ venta.idVenta }}</td>
-          <td>{{ venta.total | currency }}</td>
-          <td>{{ venta.fecha | date }}</td>
-          <td class="actions">
-            <button *ngIf="venta.idVenta" (click)="descargarReporte(venta.idVenta)" class="btn btn-danger">Imprimir</button>
-            <button *ngIf="venta.idVenta" (click)="sendVenta(venta.idVenta)" class="btn btn-danger">Enviar correo</button>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  
-  <!-- Modal de error -->
-  <div id="errorModal" class="modal" [ngClass]="{'show': showErrorModal}">
-    <div class="modal-content">
-      <span class="close" (click)="closeErrorModal()">&times;</span>
-      <h2>Error</h2>
-      <p>{{ deleteErrorMessage }}</p>
-      <button class="btn btn-secondary" (click)="closeErrorModal()">Cerrar</button>
-    </div>
-  </div>
-  
+    <button type="submit" class="btn btn-primary">Registrar Venta</button>
+  </form>
+
+  <!-- Lista de Ventas -->
+  <h3 class="subtitle">Lista de Ventas</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No. Venta</th>
+        <th>Total</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let venta of ventas">
+        <td>{{ venta.idVenta }}</td>
+        <td>{{ venta.total | currency }}</td>
+        <td>{{ venta.fecha | date }}</td>
+        <td class="actions">
+          <button *ngIf="venta.idVenta" (click)="descargarReporte(venta.idVenta)" class="btn btn-secondary">
+            Imprimir
+          </button>
+          <button *ngIf="venta.idVenta" (click)="sendVenta(venta.idVenta)" class="btn btn-danger">
+            Enviar correo
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
