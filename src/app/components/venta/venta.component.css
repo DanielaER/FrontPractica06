@@ -26,6 +26,17 @@ body {
     margin-bottom: 1.5rem;
   }
   
+  
+  /* Título principal */
+  .p {
+    text-align: center;
+    padding-top: 2%;
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: #D63384; /* Rosa brillante */
+    margin-bottom: 1.5rem;
+  }
+
   /* Estilo para los grupos de formularios */
   .form-group {
     margin-bottom: 1.5rem;

@@ -12,6 +12,11 @@ import { Venta } from 'src/app/models/venta.model';
 })
 export class VentaComponent implements OnInit {
   ventas: Venta[] = [];
+  ventasPaginadas: Venta[] = [];
+  currentPage: number = 1;
+  pageSize: number = 5; // Número de ventas por página
+  totalPages: number = 0;
+
   ventaForm: FormGroup;
   clientes: any[] = [];
   productos: any[] = [];
@@ -68,11 +73,33 @@ export class VentaComponent implements OnInit {
     this.ventaService.getAllVentas().subscribe(
       response => {
         this.ventas = response.data;
+        this.totalPages = Math.ceil(this.ventas.length / this.pageSize);
+        this.updateVentasPaginadas();
       },
       error => {
         console.error('Error loading ventas', error);
       }
     );
+  }
+
+  updateVentasPaginadas(): void {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.ventasPaginadas = this.ventas.slice(start, end);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updateVentasPaginadas();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updateVentasPaginadas();
+    }
   }
 
   agregarProducto(): void {
@@ -81,24 +108,23 @@ export class VentaComponent implements OnInit {
       alert('Por favor seleccione un producto.');
       return;
     }
-  
-    const producto = this.productos.find(p => Number(p.idProducto) === Number(this.productoSeleccionado));
 
+    const producto = this.productos.find(p => Number(p.idProducto) === Number(this.productoSeleccionado));
     console.log('Producto:', producto);
     if (!producto) return;
-  
+
     this.productosSeleccionados.push({
       ...producto,
       cantidad: 1,
       precio: producto.precio,
-      subtotal: producto.precio 
+      subtotal: producto.precio
     });
     this.productoSeleccionado = null; // Resetear el dropdown
     this.actualizarTotal();
   }
-  
+
   actualizarSubtotal(index: number): void {
-    console.log("actualizarSubtotal");
+    console.log('actualizarSubtotal');
     const producto = this.productosSeleccionados[index];
     if (producto.cantidad <= 0) {
       alert('La cantidad debe ser mayor a 0.');
@@ -107,7 +133,7 @@ export class VentaComponent implements OnInit {
     producto.subtotal = producto.cantidad * producto.precio;
     this.actualizarTotal();
   }
-  
+
   onSubmit(): void {
     if (this.ventaForm.valid && this.productosSeleccionados.length > 0) {
       const ventaData = {
@@ -130,20 +156,16 @@ export class VentaComponent implements OnInit {
       alert('Por favor complete el formulario y añada al menos un producto.');
     }
   }
-  
 
   eliminarProducto(index: number): void {
     this.productosSeleccionados.splice(index, 1);
     this.actualizarTotal();
   }
 
-  
-
   actualizarTotal(): void {
     const total = this.productosSeleccionados.reduce((sum, producto) => sum + producto.subtotal, 0);
     this.ventaForm.patchValue({ total });
   }
-
 
   sendVenta(id: number): void {
     this.ventaService.sendVenta(id).subscribe(

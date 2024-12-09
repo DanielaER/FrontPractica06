@@ -35,9 +35,10 @@
         <td>{{ producto.descripcion }}</td>
         <td>{{ producto.precio | currency }}</td>
         <td>
-          <input type="number" formController="cantidad" min="1" class="form-control" style="width: 80px;" />
+        {{ producto.stock }}  
         </td>
         <td class="actions">
+          <button (click)="editProducto(producto)" class="btn btn-secondary">Editar</button>
           <button (click)="removeProducto(producto)" class="btn btn-danger">Eliminar</button>
         </td>
       </tr>

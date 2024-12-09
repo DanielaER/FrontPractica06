@@ -1,18 +1,17 @@
 <div class="container">
   <h2 class="title">Gestión de Ventas</h2>
 
-  <!-- Formulario para registrar una venta -->
   <form [formGroup]="ventaForm" (ngSubmit)="onSubmit()" class="venta-form">
     <div class="form-group">
       <label for="cliente">Cliente</label>
-      <select id="cliente" formControlName="cliente" class="form-control">
+      <select id="cliente" formControlName="cliente" class="form-control" >
+        <option [value]="null" disabled selected>Seleccione un cliente</option>
         <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
           {{ cliente.nombre }}
         </option>
       </select>
     </div>
 
-    <!-- Sección de Productos -->
     <div class="form-group">
       <label>Productos</label>
       <div class="d-flex align-items-center mb-3">
@@ -70,30 +69,38 @@
   </form>
 
   <!-- Lista de Ventas -->
-  <h3 class="subtitle">Lista de Ventas</h3>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>No. Venta</th>
-        <th>Total</th>
-        <th>Fecha</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let venta of ventas">
-        <td>{{ venta.idVenta }}</td>
-        <td>{{ venta.total | currency }}</td>
-        <td>{{ venta.fecha | date }}</td>
-        <td class="actions">
-          <button *ngIf="venta.idVenta" (click)="descargarReporte(venta.idVenta)" class="btn btn-secondary">
-            Imprimir
-          </button>
-          <button *ngIf="venta.idVenta" (click)="sendVenta(venta.idVenta)" class="btn btn-danger">
-            Enviar correo
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<h3 class="subtitle">Lista de Ventas</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th>No. Venta</th>
+      <th>Total</th>
+      <th>Fecha</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let venta of ventasPaginadas">
+      <td>{{ venta.idVenta }}</td>
+      <td>{{ venta.total | currency }}</td>
+      <td>{{ venta.fecha | date }}</td>
+      <td class="actions">
+        <button *ngIf="venta.idVenta" (click)="descargarReporte(venta.idVenta)" class="btn btn-secondary">
+          Imprimir
+        </button>
+        <button *ngIf="venta.idVenta" (click)="sendVenta(venta.idVenta)" class="btn btn-danger">
+          Enviar correo
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pagination-controls">
+  <button (click)="previousPage()" [disabled]="currentPage === 1" class="btn btn-secondary">Anterior</button>
+  <br>
+  <p>Página {{ currentPage }} de {{ totalPages }}</p>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn btn-secondary">Siguiente</button>
+</div>
+
 </div>
